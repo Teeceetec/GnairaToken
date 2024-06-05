@@ -346,22 +346,6 @@ export default function Home() {
     }
   };
 
-  const confirmTransaction = async () => {
-    try {
-      const { ethereum } = window;
-      if (ethereum) {
-        const provider = new ethers.BrowserProvider(ethereum);
-        const contract = new Contract(
-          ERC_CONTRACT_ADDRESS,
-          ERC_CONTRACT_ABI,
-          provider.signer(),
-        );
-        const tx = await contract.confirmTransaction();
-        tx.wait();
-      }
-    } catch (error) {}
-  };
-
   const connectWallet = async () => {
     try {
       if (window.ethereum) {
