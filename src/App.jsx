@@ -276,6 +276,29 @@ export default function Home() {
     }
   };
 
+  const confirmTransaction = async () => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.BrowserProvider(ethereum);
+        const contract = new Contract(
+          ERC_CONTRACT_ADDRESS,
+          ERC_CONTRACT_ABI,
+          provider.signer(),
+        );
+
+        const tx = await contract.confirmTransaction();
+
+        await tx.wait();
+        console.log("Transaction confirmed");
+        window.alert("Transaction confirmed!!");
+        setLoading(false);
+      }
+    } catch (error) {
+      conso.error(error);
+    }
+  };
+
   const mintToken = async () => {
     try {
       const { ethereum } = window;
@@ -494,6 +517,8 @@ export default function Home() {
         <h3> Multi-SIgnature Wallet:</h3>
 
         <div>
+          <h4>Confirm Transaction before Minting</h4>
+          <button onClick={confirmTransaction}>confirmation</button>
           <label>
             Mint Address:
             <input
